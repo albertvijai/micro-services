@@ -1,2 +1,3 @@
-# micro-services
-Sample Microservices Mono Repository
+# µ-services
+Sample µ-services mono repository
+
