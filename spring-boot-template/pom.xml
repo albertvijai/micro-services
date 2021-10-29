@@ -12,11 +12,13 @@
 	<artifactId>spring-boot-template</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-boot-template</name>
-	<description>Spring boot API reference template </description>
+	<description>Spring Boot API reference template </description>
 	<properties>
 		<java.version>11</java.version>
 		<spring-cloud-gcp.version>2.0.4</spring-cloud-gcp.version>
 		<spring-cloud.version>2020.0.4</spring-cloud.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -29,15 +31,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.google.cloud</groupId>
 			<artifactId>spring-cloud-gcp-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
 		</dependency>
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.cloud</groupId>-->
@@ -47,7 +45,6 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -64,9 +61,24 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-test</artifactId>
-			<scope>test</scope>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.2.32</version>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.2.1</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
@@ -101,6 +113,41 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<!--https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/examples/spring.xml-->
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<!-- RELEASE_VERSION -->
+                <!--<version>5.3.1-SNAPSHOT</version>-->
+				<!-- /RELEASE_VERSION -->
+				<executions>
+					<execution>
+						<id>spring-server</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<!-- specify the swagger yaml -->
+							<inputSpec>${project.basedir}/src/main/resources/swagger.yml</inputSpec>
+
+							<!-- target to generate java client code -->
+							<generatorName>spring</generatorName>
+
+
+							<!-- pass any necessary config options -->
+							<configOptions>
+								<serializableModel>true</serializableModel>
+								<snapshotVersion>true</snapshotVersion>
+								<sourceFolder>src/main/java/</sourceFolder>
+								<delegatePattern>true</delegatePattern>
+								<interfaceOnly>true</interfaceOnly>
+							</configOptions>
+
+						</configuration>
+					</execution>
+
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
