@@ -10,6 +10,8 @@ paths:
     get:
       summary: Get Books
       operationId: getBooks
+      tags:
+        - book
       responses:
         200:
           description: successful operation
@@ -22,6 +24,8 @@ paths:
     post:
       summary: Add a Book
       operationId: addBook
+      tags:
+        - book
       requestBody:
         description: Book to be added in shop
         content:

@@ -12,7 +12,7 @@
 	<artifactId>spring-boot-template</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-boot-template</name>
-	<description>Spring Boot API reference template </description>
+	<description>Spring Boot API reference template</description>
 	<properties>
 		<java.version>11</java.version>
 		<spring-cloud-gcp.version>2.0.4</spring-cloud-gcp.version>
@@ -99,7 +99,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -114,42 +113,46 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<!--https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/examples/spring.xml-->
 			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<!-- RELEASE_VERSION -->
-                <!--<version>5.3.1-SNAPSHOT</version>-->
-				<!-- /RELEASE_VERSION -->
+				<version>4.3.1</version>
 				<executions>
 					<execution>
-						<id>spring-server</id>
 						<goals>
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<!-- specify the swagger yaml -->
-							<inputSpec>${project.basedir}/src/main/resources/swagger.yml</inputSpec>
-
-							<!-- target to generate java client code -->
+							<inputSpec>
+								${project.basedir}/src/main/resources/openapi.yml
+							</inputSpec>
 							<generatorName>spring</generatorName>
-
-
-							<!-- pass any necessary config options -->
+							<apiPackage>com.api.swaggercodgen.api</apiPackage>
+							<modelPackage>com.api.swaggercodgen.model</modelPackage>
+							<supportingFilesToGenerate>
+								ApiUtil.java
+							</supportingFilesToGenerate>
 							<configOptions>
-								<serializableModel>true</serializableModel>
-								<snapshotVersion>true</snapshotVersion>
 								<sourceFolder>src/main/java/</sourceFolder>
 								<delegatePattern>true</delegatePattern>
 								<interfaceOnly>true</interfaceOnly>
 							</configOptions>
-
 						</configuration>
 					</execution>
-
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
-
+	<repositories>
+		<repository>
+			<id>spring-releases</id>
+			<url>https://repo.spring.io/libs-release</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-releases</id>
+			<url>https://repo.spring.io/libs-release</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
